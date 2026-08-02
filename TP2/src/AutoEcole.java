@@ -389,6 +389,25 @@ public class AutoEcole {
         GestionFichiers.modifierActiviteCSV(a, fActivites);
         return true;
     }
+
+	public void ajouterDepenseVoiture(DepenseVoiture d){
+
+    	depensesVoiture.add(d);
+
+    	GestionFichiers.ajouterDepenseVoitureCSV(
+            	d,
+            	fDepensesVoiture
+    	);
+	}
+	public void ajouterAutreDepense(AutreDepense d){
+
+    	autresDepenses.add(d);
+
+    	GestionFichiers.ajouterAutreDepenseCSV(
+            	d,
+            	fAutresDepenses
+    	);
+	}
     
     public Calendrier getCalendrier() {
         return this.calendrier;
@@ -417,6 +436,14 @@ public class AutoEcole {
 
 	public void ajouterPaiement(Paiement paiement) {
     	this.factures.add(paiement);
+	}
+
+	public ArrayList<DepenseVoiture> getDepensesVoiture(){
+    	return depensesVoiture;
+	}
+
+	public ArrayList<AutreDepense> getAutresDepenses(){
+    	return autresDepenses;
 	}
     
 }
