@@ -58,6 +58,14 @@ public class VuePrincipale extends Application {
     	vehicule.setOnAction((event)-> {
     		this.menuVehicules();
     	});
+
+		Button paiement = new Button("Paiements");
+
+		paiement.setFont(Font.font(20));
+
+		paiement.setOnAction((event)-> {
+    		this.controleur.demarrerPaiements();
+		});
     	
     	Button quitter = new Button("Quitter");
     	quitter.setFont(Font.font(20));
