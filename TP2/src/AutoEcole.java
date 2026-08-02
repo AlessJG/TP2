@@ -359,5 +359,15 @@ public class AutoEcole {
     public ArrayList<Activite> getActivites(){
     	return this.activites;
     }
+
+	public ArrayList<Paiement> getFactures() {
+    	return this.factures;
+	}
+
+
+	public void ajouterPaiement(Paiement paiement) {
+    	this.factures.add(paiement);
+	}
     
 }
+
