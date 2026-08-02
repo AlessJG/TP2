@@ -333,5 +333,9 @@ public class Controleur {
 	    this.vueV = vueV;
 	    this.vueV.setVueP(this.vueP);
 	}
+	public void setVueD(VueDepense vueD) {
+    	this.vueD = vueD;
+    	this.vueD.setVueP(this.vueP);
+	}
 
 }
