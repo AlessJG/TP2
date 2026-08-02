@@ -100,17 +100,20 @@ public class Controleur {
 
 	public void ajouterAutreDepense(TextField[] inputs) {
 
-    	String[] reponses = new String[inputs.length];
+    	try {
 
-    	for (int i = 0; i < inputs.length; i++) {
-        	reponses[i] = inputs[i].getText();
-    	}
+        	AutreDepense d = new AutreDepense(
+                	this.autoEcole.getAutresDepenses().size() + 1,
+                	LocalDate.parse(inputs[0].getText()),
+                	AutreDepense.Categorie.valueOf(inputs[1].getText()),
+                	inputs[2].getText(),
+                	Double.parseDouble(inputs[3].getText())
+        	);
 
-    	boolean succes = this.autoEcole.ajouterAutreDepense(reponses);
-
-    	if (succes) {
+        	this.autoEcole.ajouterAutreDepense(d);
         	this.vueP.confirmation();
-    	} else {
+
+    	} catch(Exception e) {
         	this.vueP.erreur("Impossible d'ajouter la dépense.");
     	}
 	}
