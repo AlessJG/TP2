@@ -176,77 +176,31 @@ public class Controleur {
 	public void demarrerRapports() {
     	this.vueRapport.menuRapports();
 	}
-
 	public void genererRapports(LocalDate debut, LocalDate fin, String dossier) {
 
-    	genererRapportEleves(dossier, debut, fin);
-    	genererRapportRevenus(dossier, debut, fin);
-    	genererRapportDepensesVoiture(dossier, debut, fin);
-    	genererRapportAutresDepenses(dossier, debut, fin);
-
-	}
-
-    	boolean succes = this.autoEcole.ajouterDepenseVoiture(reponses);
-
-    	if (succes) {
-        	this.vueP.confirmation();
-    	} else {
-        	this.vueP.erreur("Impossible d'ajouter la dépense.");
-    	}
-	}
-
-public void ajouterAutreDepense(TextField[] inputs) {
-
-    String[] reponses = new String[inputs.length];
-
-
-	public void genererRapportEleves(String dossier, LocalDate debut, LocalDate fin) {
-
     	Rapport.rapportEleves(
-        	"./CSV/eleves/eleves" + LocalDate.now().getYear() + ".csv",
-        	debut,
-        	fin,
-        	dossier
-    	);
-
-    	this.vueP.confirmation();
-	}
-
-
-	public void genererRapportRevenus(String dossier, LocalDate debut, LocalDate fin) {
+            	"./CSV/eleves/eleves" + LocalDate.now().getYear() + ".csv",
+            	debut,
+            	fin,
+            	dossier);
 
     	Rapport.rapportRevenus(
-        	"./CSV/paiements/factures" + LocalDate.now().getYear() + ".csv",
-        	debut,
-        	fin,
-        	dossier
-    	);
-
-    	this.vueP.confirmation();
-	}
-
-
-	public void genererRapportDepensesVoiture(String dossier, LocalDate debut, LocalDate fin) {
+            	"./CSV/paiements/factures" + LocalDate.now().getYear() + ".csv",
+            	debut,
+            	fin,
+            	dossier);
 
     	Rapport.rapportDepensesVoiture(
-        	"./CSV/depenses/depensesVoiture.csv",
-        	debut,
-        	fin,
-        	dossier
-    	);
-
-    	this.vueP.confirmation();
-	}
-
-
-	public void genererRapportAutresDepenses(String dossier, LocalDate debut, LocalDate fin) {
+            	"./CSV/depenses/depensesVoiture.csv",
+            	debut,
+            	fin,
+            	dossier);
 
     	Rapport.rapportAutresDepenses(
-        	"./CSV/depenses/autresDepenses.csv",
-        	debut,
-        	fin,
-        	dossier
-    	);
+            	"./CSV/depenses/autresDepenses.csv",
+            	debut,
+            	fin,
+            	dossier);
 
     	this.vueP.confirmation();
 	}
