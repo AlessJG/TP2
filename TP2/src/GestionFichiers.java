@@ -67,7 +67,7 @@ public class GestionFichiers {
     		
 		} catch (IOException ex) {
 			System.out.println("Erreur à l’écriture du fichier");
-			System.out.println(ex.getStackTrace());
+			ex.getStackTrace();
 		}
 	    
     }
@@ -106,7 +106,7 @@ public class GestionFichiers {
 			String fElevesPrec = "./CSV/eleves/eleves" + 
 					 (LocalDate.now(Clock.systemUTC()).getYear() - 1) + ".csv";
 			ArrayList<String[]> elevesSPrec = lireCSV(fElevesPrec);
-			ecrire(nomFichier, "NumSAAQ, MotDePasse, Nom, Prenom, Adresse, Telephone, Date, DateFin\n");
+			ecrire(nomFichier, "NumSAAQ,MotDePasse,Nom,Prenom,Adresse,Telephone,DateInscription,DateFin,Lecon,ActivitePrevue\n");
 			
 			//Cas 1: on vient de créer l'app de l'auto école donc 
 			//elle n'a pas encore d'étudiant
@@ -384,32 +384,43 @@ public class GestionFichiers {
 	    ArrayList<String[]> elevesTab = lireCSV(nomFichier);
 
 	    String nouveau =
-	            "NumSAAQ,MotDePasse,Nom,Prenom,Adresse,Telephone,DateInscription,DateFin,Lecon,ActivitePrevue\n";
+	        "NumSAAQ,MotDePasse,Nom,Prenom,Adresse,Telephone,DateInscription,DateFin,Lecon,ActivitePrevue\n";
 
 	    for (String[] ligne : elevesTab) {
 
 	        if (ligne[0].equals(eleve.getNumSAAQ())) {
 
-	            ligne[1] = eleve.getMotDePasse();
-	            ligne[2] = eleve.getNom();
-	            ligne[3] = eleve.getPrenom();
+	            String[] ligneNouv = new String[10];
 
-	            // Ces getters doivent exister
-	            ligne[4] = eleve.getAdresse();
-	            ligne[5] = eleve.getNumTelephone();
+	            ligneNouv[0] = eleve.getNumSAAQ();
+	            ligneNouv[1] = eleve.getMotDePasse();
+	            ligneNouv[2] = eleve.getNom();
+	            ligneNouv[3] = eleve.getPrenom();
+	            ligneNouv[4] = eleve.getAdresse();
+	            ligneNouv[5] = eleve.getNumTelephone();
+	            ligneNouv[6] = eleve.getDateInscription().toString();
+	            
+	            if(eleve.getDateFin() == null) {
+	            	 ligneNouv[7] =  "";
+	            }
+	            else {
+	            	 ligneNouv[7] = eleve.getDateFin().toString();
+	            }
+	            
+	            if(eleve.getLecon() == null) {
+	            	ligneNouv[8] = "";
+	            }
+	            else {
+	            	ligneNouv[8] = eleve.getLecon().toString();
+	            }
+	            
+	            ligneNouv[9] = String.valueOf(eleve.getActivitePrevue());
 
-	            ligne[6] = eleve.getDateInscription().toString();
+	            nouveau += String.join(",", ligneNouv) + "\n";
 
-	            if (eleve.getDateFin() != null)
-	                ligne[7] = eleve.getDateFin().toString();
-	            else
-	                ligne[7] = "";
-
-	            ligne[8] = eleve.getLecon().toString();
-	            ligne[9] = String.valueOf(eleve.getActivitePrevue());
+	        } else {
+	            nouveau += String.join(",", ligne) + "\n";
 	        }
-
-	        nouveau += String.join(",", ligne) + "\n";
 	    }
 
 	    ecrire(nomFichier, nouveau);
@@ -538,6 +549,34 @@ public class GestionFichiers {
 	    ecrire(nomFichier, nouvS);
 	}
 	
+	public static void modifierVoitureCSV(Voiture voiture, String nomFichier) {
+
+	    ArrayList<String[]> voituresTab = lireCSV(nomFichier);
+
+	    String nouveau = "Marque,Plaque,Annee,Prix,KmAchat,Etat,Kms\n";
+	    for (String[] ligne : voituresTab) {
+
+	        if (ligne[1].equals(voiture.getPlaque())) {
+
+	            String[] ligneNouv = new String[7];
+
+	            ligneNouv[0] = voiture.getMarque();
+	            ligneNouv[1] = voiture.getPlaque();
+	            ligneNouv[2] = String.valueOf(voiture.getAnnee());
+	            ligneNouv[3] = String.valueOf(voiture.getPrixAchat());
+	            ligneNouv[4] = String.valueOf(voiture.getKmAchat());
+	            ligneNouv[5] = voiture.getEtat().name();
+	            ligneNouv[6] = String.valueOf(voiture.getKilometrage());
+	            nouveau += String.join(",", ligneNouv) + "\n";
+
+	        } else {
+	            nouveau += String.join(",", ligne) + "\n";
+	        }
+	    }
+
+	    ecrire(nomFichier, nouveau);
+	}
+	
 	/**
 	 * Fonction qui sert à créer et retourner l'instance de la voiture courante à partir des fichiers voituresXXXX.csv. 
 	 * Permet aussi de gérer les fichiers CSV des voitures: mise à jour des données si l'année vient de changer, 
@@ -545,10 +584,10 @@ public class GestionFichiers {
 	 * @param nomFichier, le nom du fichier CSV des voitures de l'année courante
 	 * @return voiture, l'instance de la voiture courante
 	 */
-	public static Voiture voituresCSV(String nomFichier) {
+	public static ArrayList<Voiture> voituresCSV(String nomFichier) {
 		
 		ArrayList<String[]> voitureS = lireCSV(nomFichier);
-		Voiture voiture;
+		ArrayList<Voiture> voitures = new ArrayList<Voiture>();
 
 		//Si le fichier pour l'année courante n'existait pas, alors on vient de changer d'année
 		//donc les données doivent être mises à jour
@@ -565,20 +604,22 @@ public class GestionFichiers {
 			
 			ecrire(nomFichier, "Marque,Plaque,Annee,Prix,KmAchat,Etat,Kms\n" + s);
 			
-			voiture = new Voiture(sTab[0], Integer.parseInt(sTab[2]), sTab[1], Double.parseDouble(sTab[3]), Integer.parseInt(sTab[4]), 
+			Voiture voiture = new Voiture(sTab[0], Integer.parseInt(sTab[2]), sTab[1], Double.parseDouble(sTab[3]), Integer.parseInt(sTab[4]), 
 								  Integer.parseInt(sTab[6]), Voiture.Etat.valueOf(sTab[5]));
-			return voiture;
+			voitures.add(voiture);
 		}
 		//Si le fichier existait
 		else {
-						
+			for(String[] sTab : voitureS) {
+				Voiture voiture = new Voiture(sTab[0], Integer.parseInt(sTab[2]), sTab[1], Double.parseDouble(sTab[3]), Integer.parseInt(sTab[4]), 
+						  Integer.parseInt(sTab[6]), Voiture.Etat.valueOf(sTab[5]));
+				voitures.add(voiture);
+			}
 			String[] sTab = voitureS.get(voitureS.size() - 1);
-						
-			voiture = new Voiture(sTab[0], Integer.parseInt(sTab[2]), sTab[1], Double.parseDouble(sTab[3]), Integer.parseInt(sTab[4]), 
-							  Integer.parseInt(sTab[6]), Voiture.Etat.valueOf(sTab[5]));
-			return voiture;
 		}
+		return voitures;
 	}
+	
 
 }
 	

@@ -92,50 +92,29 @@ public class Calendrier {
 	 * Fonction qui sert à afficher le calendrier de ce mois-ci avec les semaines du mois numérotées
 	 * @return semaines, une liste des dates par chaque semaine
 	 */
-    public Date[][] afficherCalendrierMois() {
-    	
-        String nomMois[] = {"JANVIER", "FEVRIER", "MARS", "AVRIL", "MAI", "JUIN", "JUILLET",
-        					"AOUT", "SEPTEMBRE", "OCTOBRE", "NOVEMBRE", "DECEMBRE"};
+	public Date[][] getSemainesMois() {
 
-        System.out.println("MOIS:" + nomMois[mois - 1]);
-        
-        Date[][] semaines = new Date[6][7];
+	    Date[][] semaines = new Date[6][7];
 
-        //On affiche l'entête
-        int semaine = 0;
-        int colonne = afficherEntete(this.dates.get(0));
+	    int semaine = 0;
+	    int colonne = getColonneDebut(this.dates.get(0));
 
-        //On affiche les dates du mois formattées
-        for (Date d : this.dates) {
-        	if (!d.getCreneauDispo().isEmpty()) {
-                semaines[semaine][colonne] = d;
-                System.out.printf("%6d", d.getJour());
-            } else {
-            	//Si une date est indisponible, son numéro n'est pas affiché
-                System.out.printf("%6s", "-");
-            }
+	    for (Date d : this.dates) {
 
-            colonne++;
+	        if (!d.getCreneauDispo().isEmpty()) {
+	            semaines[semaine][colonne] = d;
+	        }
 
-            //lorsqu'on arrive à la fin d'une semaine, on imprime son numéro et passe à la prochaine ligne
-            if (colonne == 7) {
-                System.out.println(" (" + (semaine + 1) + ")");
-                colonne = 0;
-                semaine++;
+	        colonne++;
 
-                if (semaine == semaines.length)
-                    break;
-            }
-        }       		
+	        if (colonne == 7) {
+	            colonne = 0;
+	            semaine++;
+	        }
+	    }
 
-        if (colonne != 0) {
-            System.out.printf(" (%d)", semaine+1);
-            System.out.println();
-        }
-        
-        System.out.println();
-        return semaines;
-    }
+	    return semaines;
+	}
     
     /**
      * Fonction qui sert à afficher l'entête d'une semaine. Celui-ci contient les abbréviations des
@@ -144,49 +123,25 @@ public class Calendrier {
      * @param start, la date (objet Date) de début, l'affichage commence à partir de celle-ci
      * @return espaces, le nombre d'espace
      */
-    public int afficherEntete(Date start) {
-    	String[] jours = {"DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"} ;
-    	
-        for (int k = 0; k < jours.length; k++) {
-            System.out.print("   " + jours[k]);
-        }
-        System.out.println();
-        
-        int diff = start.getJour() - this.jour;
-        DayOfWeek jourSemaine = LocalDate.now()
-                .plusDays(diff)
-                .getDayOfWeek();
+	private int getColonneDebut(Date start) {
 
-        int espaces = jourSemaine.getValue() % 7;
+	    int diff = start.getJour() - this.jour;
 
-        for (int i = 0; i < espaces; i++) {
-            System.out.print("      ");
-        }
-        return espaces;
-    }
+	    DayOfWeek jourSemaine = LocalDate.now()
+	            .plusDays(diff)
+	            .getDayOfWeek();
+
+	    return jourSemaine.getValue() % 7;
+	}
     
     /**
      * Fonction qui sert à afficher le calendrier de la semaine choisie avec les créneaux de 
      * disponibilités de chaque journée.
      * @param semaine, la liste des dates (objets Date) de la semaine à afficher
      */
-    public void afficherCalendrierSemaine(Date[] semaine) {
-    	int i = 1;
-
-        for (Date date : semaine) {
-
-            if (date == null) {
-                i++;
-                continue;
-            }
-
-            System.out.println("Jour " + i + " : " + date.getJour());
-            System.out.println("Heures disponibles:");
-            System.out.println(date);
-
-            i++;
-        }
-    }
+	public Date[] getSemaine(int index) {
+	    return getSemainesMois()[index];
+	}
     
     /**
      * Accesseur pour la liste de dates (objets Date) du calendrier

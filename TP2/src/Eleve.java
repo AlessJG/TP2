@@ -10,6 +10,9 @@ public class Eleve extends Personne {
 	private Activite activite; //la prochaine activité prévue de l'élève
 	private Paiement facture; //le prochain paiement de l'élève
 	
+	
+	
+	
 	//les différentes leçons à effectuer par l'élève, sont numérotées 
 	enum Lecon {
 		LT1, LT2, LT3, 
@@ -256,4 +259,12 @@ public class Eleve extends Personne {
 	public LocalDate getDateFin() {
 	    return this.dateFin;
 	}
-}
+	
+	public void setNumeroSAAQ(String numSaaq) { 
+		this.numeroSAAQ = numSaaq; 
+	}
+	
+	public void setMotDePasse(String motDePasse) { 
+		this.motDePasse = motDePasse; 
+	}
+}  

@@ -54,4 +54,20 @@ public abstract class Personne {
 	public String getNumTelephone() {
 	    return this.numTelephone;
 	}
+	
+	public void setNom(String nom) { 
+		this.nom = nom; 
+	}
+	
+	public void setPrenom(String prenom) { 
+		this.prenom = prenom; 
+	}
+	
+	public void setAdresse(String adresse) { 
+		this.adresse = adresse; 
+	}
+	
+	public void setNumTelephone(String numTelephone) { 
+		this.numTelephone = numTelephone; 
+	}
 }

@@ -6,7 +6,7 @@ public final class Voiture {
 	private final String plaque; //la plaque du véhicule
 	private final double prixAchat; //le prix d'achat du véhicule
 	private final int kmAchat; //le kilométrage à l'achat du véhicule
-	private final int kilometrage; //le kilométrage courant du véhicule
+	private int kilometrage; //le kilométrage courant du véhicule
 	private LinkedList<DepenseVoiture> listeDepVoit; //la liste des dépenses (objets DepenseVoiture)
 													 //liées à la voiture
 	private Etat etat; //l'état de la voiture
@@ -110,6 +110,14 @@ public final class Voiture {
 	 */
 	public LinkedList<DepenseVoiture> getListeDepVoit(){
 		return this.listeDepVoit;
+	}
+	
+	public void setKilometrage(int kilometrage) {
+	    this.kilometrage = kilometrage;
+	}
+
+	public void setEtat(Etat etat) {
+	    this.etat = etat;
 	}
 }
  
