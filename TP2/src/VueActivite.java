@@ -45,6 +45,7 @@ public class VueActivite {
     		this.controleur.demarrerGererActivite(input.getText());
     	});
     	
+    	root.getChildren().add(confirmer);
     	root.setAlignment(Pos.CENTER);
     	root.setSpacing(20);
     	

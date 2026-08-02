@@ -22,6 +22,10 @@ public class Controleur {
 		this.autoEcole = new AutoEcole();
 	}
 
+	
+	//Fonctions pour démarrer des actions et des menus de vues secondaires
+	
+	//élèves
 	public void demarrerInscription() {
 		this.vueE.inscriptionEleve();
 	}
@@ -30,11 +34,42 @@ public class Controleur {
 		this.vueA.trouverEleve();
 	}
 	
+	public void demarrerAfficherEleves() {
+		this.vueE.afficherEleves(this.autoEcole.getEleves());
+	}
+	
+	public void demarrerRechercherEleve() {
+		this.vueE.rechercherElevePar();
+	}
+	
+	public void demarrerSupprimerEleve() {
+		this.vueE.barDeRechercheSupprimerEleve();
+	}
+	
+	public void demarrerModifierEleve() {
+		this.vueE.barDeRechercheModifierEleve();
+	}
+	
+	
+	//activités
+	public void demarrerAfficherActivites() {
+		this.vueA.afficherActivites(this.autoEcole.getActivites());
+	}
+	
 	public void demarrerGererActivite(String numSAAQ) {
 		Eleve e = this.autoEcole.rechercheEleveNumSAAQ(numSAAQ).get(0);
 		this.vueA.gererActivite(e);
 	}
 	
+	
+	//paiements
+	public void demarrerPaiements(){
+	    this.vuePaiement.afficherPaiements(
+	        this.autoEcole.getFactures()
+	    );
+	}
+	
+	//Fonctions pour le menu élèves
 	public void confirmerInscription(TextField[] inputs) {
 		String[] reponses = new String[inputs.length];
 		for(int i = 0; i<inputs.length; i++) {
@@ -50,33 +85,7 @@ public class Controleur {
 		else {
 			this.vueP.confirmation();
 		}
-	}
-	
-	public void confirmerInscriptionVehicule(TextField[] inputs) {
-		String[] reponses = new String[inputs.length];
-		for(int i = 0; i<inputs.length; i++) {
-			reponses[i] = inputs[i].getText();
-		}
-		
-		if(this.autoEcole.inscriptionVehicule(reponses) == null) {
-			Button bouton = this.vueP.erreurEntree("Retourner à l'inscription");
-			bouton.setOnAction((event)-> {
-				this.vueV.inscrireNouveauVehicule();
-			});
-		}
-		else {
-			this.vueP.confirmation();
-		}
-	}
-	
-	
-	public void afficheurEleves() {
-		this.vueE.afficherEleves(this.autoEcole.getEleves());
-	}
-	
-	public void afficheurActivites() {
-		this.vueA.afficherActivites(this.autoEcole.getActivites());
-	}
+	}	
 	
 	public void rechercherEleve(String type, String input) {
 		switch(type) {
@@ -137,10 +146,7 @@ public class Controleur {
 		}
 	}
 	
-	public void startAct() {
-		this.vueA.gererActivite(this.autoEcole.getEleves().get(0));
-	}
-	
+	//Fonctions pour le menu des activités
 	public void gestionActivite(boolean cas, Eleve e) {
 		int resultat = this.autoEcole.gestionActivite(cas, e);
 		
@@ -213,6 +219,50 @@ public class Controleur {
 		}
 	}
 	
+	public void afficherDetailsActivite() {
+
+	    String numSAAQ = this.vueA.demanderNumSAAQActivite();
+
+	    String details = this.autoEcole.afficherDetailsActivite(numSAAQ);
+
+	    this.vueA.afficherMessage(details);
+	}
+	
+	public void mettreAJourStatutActivite() {
+
+	    String numSAAQ = this.vueA.demanderIdActivite();
+
+	    Activite.Statut statut = this.vueA.demanderNouveauStatutActivite();
+
+	    boolean succes = this.autoEcole.mettreAJourStatutActivite(numSAAQ, statut);
+
+	    if (succes) {
+	        this.vueP.confirmation();;
+	    }
+	    else {
+	        this.vueP.erreur("Activité introuvable");
+	    }
+	}
+	
+	//Fonctions pour le menu des véhicules
+	public void confirmerInscriptionVehicule(TextField[] inputs) {
+		String[] reponses = new String[inputs.length];
+		for(int i = 0; i<inputs.length; i++) {
+			reponses[i] = inputs[i].getText();
+		}
+		
+		if(this.autoEcole.inscriptionVehicule(reponses) == null) {
+			Button bouton = this.vueP.erreurEntree("Retourner à l'inscription");
+			bouton.setOnAction((event)-> {
+				this.vueV.inscrireNouveauVehicule();
+			});
+		}
+		else {
+			this.vueP.confirmation();
+		}
+	}
+	
+	//Getters et setters
 	public void setVueE(VueEleve vueE) {
 	    this.vueE = vueE;
 	    this.vueE.setVueP(this.vueP);
@@ -228,10 +278,4 @@ public class Controleur {
 	    this.vueV.setVueP(this.vueP);
 	}
 
-	public void demarrerPaiements(){
-    this.vuePaiement.afficherPaiements(
-        this.autoEcole.getFactures()
-    );
-}
-	
 }

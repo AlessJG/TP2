@@ -31,7 +31,7 @@ public class GestionFichiers {
     				return null;
     		    } catch (IOException e) {
     		    	System.out.println("Erreur à la création d'un fichier.");
-    		    	e.getStackTrace();
+    		    	e.printStackTrace();
     		    	return null;
     		    }
     		}
@@ -187,7 +187,7 @@ public class GestionFichiers {
 			String fActivitesPrec = "./CSV/activites/activites" + 
 					 (LocalDate.now(Clock.systemUTC()).getYear() - 1) + ".csv";
 			ArrayList<String[]> activiteSPrec = lireCSV(fActivitesPrec);
-			ecrire(nomFichier, "ID_Activite, Type, NumSAAQ, Date, Heure, Duree, Montant, Statut, Plaques\n");
+			ecrire(nomFichier, "ID_Activite,Type,NumSAAQ,Date,Heure,Duree,Montant,Statut,Plaques\n");
 			
 			//Cas 1: on vient de créer l'app de l'auto école donc 
 			//elle n'a pas encore d'activites prevues
@@ -301,7 +301,7 @@ public class GestionFichiers {
 	        if (s[0].equals(date)) {
 	            ArrayList<String> ligne = new ArrayList<>(Arrays.asList(s));
 
-	            for (int j = 2; j < ligne.size(); j++) {
+	            for (int j = 1; j < ligne.size(); j++) {
 	                if (ligne.get(j).equals(creneau)) {
 	                    ligne.remove(j);
 	                    break;
@@ -324,9 +324,7 @@ public class GestionFichiers {
 		
 		if (facturesTab == null || facturesTab.isEmpty()) {
 		
-			ecrire(nomFichier,
-					"ID,NumeroUnique,NumSAAQ,Type,DateActivite,Montant,Statut,Methode\n");
-		
+			ecrire(nomFichier, "ID,NumeroUnique,NumSAAQ,Type,DateActivite,Montant,Statut,Methode\n");
 			return factures;
 		}
 		
@@ -355,17 +353,11 @@ public class GestionFichiers {
 		
 			Paiement.Methode methode = null;
 		
-			if (!ligne[7].isBlank())
+			if (!ligne[7].isBlank()) {
 				methode = Paiement.Methode.valueOf(ligne[7]);
-		
-			Paiement paiement = new Paiement(
-					ligne[1],
-					Double.parseDouble(ligne[5]),
-					LocalDate.parse(ligne[4]),
-					eleve,
-					activite,
-					Paiement.Statut.valueOf(ligne[6]),
-					methode);
+			}
+			Paiement paiement = new Paiement(ligne[1], Double.parseDouble(ligne[5]), LocalDate.parse(ligne[4]),
+					eleve, activite, Paiement.Statut.valueOf(ligne[6]), methode);
 		
 			factures.add(paiement);
 		}
@@ -426,27 +418,24 @@ public class GestionFichiers {
 	    ecrire(nomFichier, nouveau);
 	}
 	
-	public static void ajouterFactureCSV(Paiement paiement,
-            String nomFichier) {
+	public static void ajouterFactureCSV(Paiement paiement, String nomFichier) {
 
 		ArrayList<String[]> factures = lireCSV(nomFichier);
-
 		int id = factures.size() + 1;
-
 		String methode = "";
 
-		if (paiement.getMethode() != null)
+		if (paiement.getMethode() != null) {
 			methode = paiement.getMethode().toString();
-
-		String ligne ="\n"
-						+ id + ","
+		}
+		
+		String ligne =	+ id + ","
 						+ paiement.getNumeroUnique() + ","
 						+ paiement.getEleve().getNumSAAQ() + ","
 						+ paiement.getActivite().getType() + ","
 						+ paiement.getDate() + ","
 						+ paiement.getMontant() + ","
 						+ paiement.getStatut() + ","
-						+ methode;
+						+ methode + "\n";
 
 		ajouterCSV(nomFichier, ligne);
 	}
@@ -527,7 +516,7 @@ public class GestionFichiers {
 	    ArrayList<String[]> activitesTab = lireCSV(nomFichier);
 
 	    String nouvS =
-	        "ID_Activite,Type,SAAQ,Date,Heure,Duree,Montant,Statut,Plaque\n";
+	    		"ID_Activite,Type,NumSAAQ,Date,Heure,Duree,Montant,Statut,Plaques\n";
 
 	    int id = 1;
 
@@ -591,22 +580,26 @@ public class GestionFichiers {
 
 		//Si le fichier pour l'année courante n'existait pas, alors on vient de changer d'année
 		//donc les données doivent être mises à jour
-		if(voitureS == null || voitureS.isEmpty()) {
-	
-			String fVoiturePrec = ("./CSV/voitures/voitures" + 
-									(LocalDate.now(Clock.systemUTC()).getYear() - 1) + ".csv");
-			
-			ArrayList<String[]> voitureSPrec = lireCSV(fVoiturePrec);
-			
-			String[] sTab = voitureSPrec.get(voitureSPrec.size() - 1);
-			String s = String.join(",", sTab);
-			s += "\n";
-			
-			ecrire(nomFichier, "Marque,Plaque,Annee,Prix,KmAchat,Etat,Kms\n" + s);
-			
-			Voiture voiture = new Voiture(sTab[0], Integer.parseInt(sTab[2]), sTab[1], Double.parseDouble(sTab[3]), Integer.parseInt(sTab[4]), 
-								  Integer.parseInt(sTab[6]), Voiture.Etat.valueOf(sTab[5]));
-			voitures.add(voiture);
+		if (voitureS == null || voitureS.isEmpty()) {
+
+		    String fVoiturePrec = "./CSV/voitures/voiture"
+		            			  + (LocalDate.now().getYear() - 1)
+		            			  + ".csv";
+
+		    ArrayList<String[]> voitureSPrec = lireCSV(fVoiturePrec);
+
+		    ecrire(nomFichier, "Marque,Plaque,Annee,Prix,KmAchat,Etat,Kms\n");
+
+		    if (voitureSPrec == null || voitureSPrec.isEmpty()) {
+		        return voitures;
+		    }
+
+		    String[] sTab = voitureSPrec.get(voitureSPrec.size() - 1);
+		    ajouterCSV(nomFichier, String.join(",", sTab) + "\n");
+
+		    voitures.add(new Voiture(sTab[0], Integer.parseInt(sTab[2]), sTab[1],
+		        Double.parseDouble(sTab[3]), Integer.parseInt(sTab[4]),
+		        Integer.parseInt(sTab[6]), Voiture.Etat.valueOf(sTab[5])));
 		}
 		//Si le fichier existait
 		else {

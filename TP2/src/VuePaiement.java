@@ -87,13 +87,7 @@ public class VuePaiement {
         });
 
 
-        table.getColumns().addAll(
-                numero,
-                montant,
-                date,
-                statut,
-                methode
-        );
+        table.getColumns().addAll(numero, montant, date, statut, methode);
 
 
         table.setItems(liste);

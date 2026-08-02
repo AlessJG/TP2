@@ -193,6 +193,40 @@ public class AutoEcole {
     	return this.elevesRecherches;
     }
     
+    public Activite trouverActivites(String numSAAQ) {
+
+    	ArrayList<Activite> activites = new ArrayList<Activite>();
+        for (Activite activite : this.activites) {
+
+            if (activite.getNumSAAQ().equals(numSAAQ)) {
+                activites.add(activite);
+            }
+        }
+        
+    	for(Activite a : activites) {
+    		if(a.getStatut().equals(Activite.Statut.NC)) {
+    			return a;
+    		}
+    	}
+        return null;
+    }
+    
+    public boolean mettreAJourStatutActivite(String numSAAQ, Activite.Statut nouveauStatut) {
+
+    	Activite a = trouverActivites(numSAAQ);
+
+    	if (a == null) {
+    		return false;
+    	}
+
+    	a.setStatut(nouveauStatut);
+
+    	// Sauvegarder toutes les activités dans le CSV
+    	GestionFichiers.modifierActiviteCSV(a, this.fActivites);
+
+    	return true;
+    }
+    
     public void retirerEleve(Eleve e) {
 
         e.setDateFin(LocalDate.now());
@@ -308,24 +342,12 @@ public class AutoEcole {
 		String numero = "F-" + LocalDate.now().getYear() + "-" 
               + String.format("%05d", this.factures.size() + 1);
 
-		Paiement paiement = new Paiement(
-        		numero,
-        		activite.getMontant(),
-        		LocalDate.now(),
-        		eleve,
-        		activite,
-        		Paiement.Statut.P,
-        		Paiement.Methode.E
-		);
+		Paiement paiement = new Paiement(numero, activite.getMontant(), LocalDate.now(),
+        								 eleve,  activite, Paiement.Statut.P, Paiement.Methode.E);
 
 		this.factures.add(paiement);
 		
-	
-
-		GestionFichiers.ajouterFactureCSV(
-    		paiement,
-    		this.fFactures
-		);
+		GestionFichiers.ajouterFactureCSV(paiement,	this.fFactures);
 		
 		//On enregistre l'activité dans la base de données dans activitesXXXX.csv
         String ligne = this.activites.size() + "," +

@@ -95,16 +95,16 @@ public class VuePrincipale extends Application {
     	
     	root.getChildren().add(new Separator());
     	
-    	Button planifier = new Button("Planifier une nouvelle activité");
-    	planifier.setFont(Font.font(20));
-    	planifier.setOnAction((event)-> {
+    	Button gerer = new Button("Gérer une activité");
+    	gerer.setFont(Font.font(20));
+    	gerer.setOnAction((event)-> {
     		this.controleur.demarrerTrouverEleve();
     	});
     	
     	Button lister = new Button("Afficher la liste des activités");
     	lister.setFont(Font.font(20));
     	lister.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerAfficherActivites();
     	});
     	
     	Button miseAJour = new Button("Mettre à jour le statut d'une activité");
@@ -112,13 +112,7 @@ public class VuePrincipale extends Application {
     	miseAJour.setOnAction((event)-> {
     		//
     	});
-    	
-    	Button annuler = new Button("Annuler une activité");
-    	annuler.setFont(Font.font(20));
-    	annuler.setOnAction((event)-> {
-    		//
-    	});
-    	
+    	    	
     	Button details = new Button("Afficher les détails d'une activité");
     	details.setFont(Font.font(20));
     	details.setOnAction((event)-> {
@@ -131,7 +125,7 @@ public class VuePrincipale extends Application {
     		this.quitter();
     	});
     	
-    	root.getChildren().addAll(planifier, lister, miseAJour, annuler, details, quitter);
+    	root.getChildren().addAll(gerer, lister, miseAJour, details, quitter);
     	root.setAlignment(Pos.CENTER);
     	root.setSpacing(20);
     	
@@ -155,31 +149,31 @@ public class VuePrincipale extends Application {
     	Button lister = new Button("Afficher la liste complète des élèves");
     	lister.setFont(Font.font(20));
     	lister.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerAfficherEleves();
     	});
     	
     	Button inscrire = new Button("Ajouter un nouvel élève");
     	inscrire.setFont(Font.font(20));
     	inscrire.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerInscription();
     	});
     	
     	Button rechercher = new Button("Rechercher un élève");
     	rechercher.setFont(Font.font(20));
     	rechercher.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerRechercherEleve();
     	});
     	
     	Button modifier = new Button("Modifier les informations d'un élève");
     	modifier.setFont(Font.font(20));
     	modifier.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerModifierEleve();
     	});
     	
     	Button supprimer = new Button("Supprimer un élève");
     	supprimer.setFont(Font.font(20));
     	supprimer.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerSupprimerEleve();
     	});
     	
     	Button quitter = new Button("Quitter");
