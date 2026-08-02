@@ -177,15 +177,6 @@ public class Controleur {
     	this.vueRapport.menuRapports();
 	}
 
-	public void genererRapports(LocalDate debut, LocalDate fin, String dossier) {
-
-    	genererRapportEleves(dossier, debut, fin);
-    	genererRapportRevenus(dossier, debut, fin);
-    	genererRapportDepensesVoiture(dossier, debut, fin);
-    	genererRapportAutresDepenses(dossier, debut, fin);
-
-		this.vueP.confirmation();
-	}
 
 	public void genererRapports(LocalDate debut, LocalDate fin, String dossier) {
 
@@ -212,6 +203,7 @@ public class Controleur {
             	debut,
             	fin,
             	dossier);
+		this.vueP.confirmation();
 
     	
 	}
