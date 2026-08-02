@@ -73,7 +73,7 @@ public class VuePrincipale extends Application {
     		this.quitter();
     	});
     	
-    	root.getChildren().addAll(activite, eleve, vehicule, quitter);
+    	root.getChildren().addAll(activite, eleve, vehicule, paiement, quitter);
     	root.setAlignment(Pos.CENTER);
     	root.setSpacing(20);
     	
