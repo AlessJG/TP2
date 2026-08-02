@@ -320,6 +320,16 @@ public class AutoEcole {
 
 		this.factures.add(paiement);
 		
+		String ligneFacture = paiement.getNumeroUnique() + "," +
+                      paiement.getMontant() + "," +
+                      paiement.getDate() + "," +
+                      paiement.getEleve().getNumSAAQ() + "," +
+                      paiement.getActivite().getType() + "," +
+                      paiement.getStatut() + "," +
+                      paiement.getMethode() + "\n";
+
+		GestionFichiers.ajouterCSV(this.fFactures, ligneFacture);
+		
 		//On enregistre l'activité dans la base de données dans activitesXXXX.csv
         String ligne = this.activites.size() + "," +
 		                activite.getType() + "," +
