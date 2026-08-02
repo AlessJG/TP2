@@ -169,6 +169,65 @@ public class Controleur {
         	this.autoEcole.rechercherDepensesCategorie(categorie)
     	);
 	}
+
+
+	// rapports
+
+	public void demarrerRapports() {
+    	this.vueRapport.menuRapports();
+	}
+
+
+	public void genererRapportEleves(String dossier, LocalDate debut, LocalDate fin) {
+
+    	Rapport.rapportEleves(
+        	"./CSV/eleves/eleves" + LocalDate.now().getYear() + ".csv",
+        	debut,
+        	fin,
+        	dossier
+    	);
+
+    	this.vueP.confirmation();
+	}
+
+
+public void genererRapportRevenus(String dossier, LocalDate debut, LocalDate fin) {
+
+    	Rapport.rapportRevenus(
+        	"./CSV/paiements/factures" + LocalDate.now().getYear() + ".csv",
+        	debut,
+        	fin,
+        	dossier
+    	);
+
+    	this.vueP.confirmation();
+	}
+
+
+public void genererRapportDepensesVoiture(String dossier, LocalDate debut, LocalDate fin) {
+
+    	Rapport.rapportDepensesVoiture(
+        	"./CSV/depenses/depensesVoiture.csv",
+        	debut,
+        	fin,
+        	dossier
+    	);
+
+    	this.vueP.confirmation();
+	}
+
+
+public void genererRapportAutresDepenses(String dossier, LocalDate debut, LocalDate fin) {
+
+    	Rapport.rapportAutresDepenses(
+        	"./CSV/depenses/autresDepenses.csv",
+        	debut,
+        	fin,
+        	dossier
+    	);
+
+    	this.vueP.confirmation();
+	}
 	
 	//Fonctions pour le menu élèves
 	public void confirmerInscription(TextField[] inputs) {
