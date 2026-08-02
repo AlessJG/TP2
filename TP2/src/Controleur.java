@@ -10,6 +10,7 @@ public class Controleur {
 	private VueActivite vueA;
 	private VueVoiture vueV;
 	private VuePaiement vuePaiement;
+	private VueDepense vueD;
 	private AutoEcole autoEcole;
 	
 	public Controleur(VuePrincipale vueP) {
@@ -19,6 +20,8 @@ public class Controleur {
 		this.vueV = new VueVoiture(vueP.getPrimaryStage(), this);
 		this.vuePaiement = new VuePaiement(vueP.getPrimaryStage(), this);
 		this.vuePaiement.setVueP(vueP);
+		this.vueD = new VueDepense(vueP.getPrimaryStage(), this);
+		this.vueD.setVueP(vueP);
 		this.autoEcole = new AutoEcole();
 	}
 
