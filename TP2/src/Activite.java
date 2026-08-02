@@ -20,7 +20,7 @@ public class Activite {
 	 * EP-Examen Pratique
 	 * EPL-Examen Pratique avec Location extérieure
 	 * */
-	enum TypeActivite {
+	enum public TypeActivite {
 		LPA,
 		LPZ,
 		LPS,
@@ -40,7 +40,7 @@ public class Activite {
 	}
 	
 	//les différents statuts de l'activité C-Complétée, NC-Non complétée
-	enum Statut{
+	enum public Statut{
 		C,
 		NC
 	}
