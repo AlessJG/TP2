@@ -63,6 +63,14 @@ public class VuePrincipale extends Application {
 		paiement.setOnAction((event)-> {
     		this.controleur.demarrerPaiements();
 		});
+
+		Button depense = new Button("Dépenses");
+
+		depense.setFont(Font.font(20));
+
+		depense.setOnAction((event)-> {
+    		this.controleur.demarrerDepenses();
+		});
     	
     	Button quitter = new Button("Quitter");
     	quitter.setFont(Font.font(20));
@@ -70,7 +78,7 @@ public class VuePrincipale extends Application {
     		this.quitter();
     	});
     	
-    	root.getChildren().addAll(activite, eleve, vehicule, paiement, quitter);
+    	root.getChildren().addAll(activite, eleve, vehicule, paiement, depense, quitter);
     	root.setAlignment(Pos.CENTER);
     	root.setSpacing(20);
     	

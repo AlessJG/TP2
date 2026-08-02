@@ -1,5 +1,6 @@
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,6 +12,7 @@ public class Controleur {
 	private VueActivite vueA;
 	private VueVoiture vueV;
 	private VuePaiement vuePaiement;
+	private VueDepense vueD;
 	private AutoEcole autoEcole;
 	
 	public Controleur(VuePrincipale vueP) {
@@ -21,7 +23,8 @@ public class Controleur {
 		
 		this.vuePaiement = new VuePaiement(vueP.getPrimaryStage(), this);
 		this.vuePaiement.setVueP(vueP);
-		
+		this.vueD = new VueDepense(vueP.getPrimaryStage(), this);
+		this.vueD.setVueP(vueP);
 		this.autoEcole = new AutoEcole();
 	}
 
@@ -102,6 +105,66 @@ public class Controleur {
 	    this.vuePaiement.afficherPaiements(
 	        this.autoEcole.getFactures()
 	    );
+	}
+	//dépenses
+
+	public void demarrerDepenses() {
+    	this.vueD.menuDepenses();
+	}
+
+	public void ajouterDepenseVoiture(TextField[] inputs) {
+
+    	try {
+
+        	DepenseVoiture d = new DepenseVoiture(
+                	this.autoEcole.getDepensesVoiture().size() + 1,
+                	inputs[0].getText(), // plaque
+                	LocalDate.parse(inputs[1].getText()), // date
+                	DepenseVoiture.Categorie.valueOf(inputs[2].getText()), // categorie
+                	inputs[3].getText(), // description
+                	Double.parseDouble(inputs[4].getText()) // montant
+        	);
+
+        	this.autoEcole.ajouterDepenseVoiture(d);
+        	this.vueP.confirmation();
+
+    	} catch(Exception e) {
+        	this.vueP.erreur("Impossible d'ajouter la dépense.");
+    	}
+	}
+
+	public void ajouterAutreDepense(TextField[] inputs) {
+
+    	try {
+
+        	AutreDepense d = new AutreDepense(
+                	this.autoEcole.getAutresDepenses().size() + 1,
+                	LocalDate.parse(inputs[0].getText()),
+                	AutreDepense.Categorie.valueOf(inputs[1].getText()),
+                	inputs[2].getText(),
+                	Double.parseDouble(inputs[3].getText())
+        	);
+
+        	this.autoEcole.ajouterAutreDepense(d);
+        	this.vueP.confirmation();
+
+    	} catch(Exception e) {
+        	this.vueP.erreur("Impossible d'ajouter la dépense.");
+    	}
+	}
+
+	public void afficherDepensesVoiture() {
+    	this.vueD.afficherDepensesVoiture(this.autoEcole.getDepensesVoiture());
+	}
+
+	public void afficherAutresDepenses() {
+    	this.vueD.afficherAutresDepenses(this.autoEcole.getAutresDepenses());
+	}
+
+	public void afficherDepensesCategorie(String categorie) {
+    	this.vueD.afficherDepensesCategorie(
+        	this.autoEcole.rechercherDepensesCategorie(categorie)
+    	);
 	}
 	
 	//Fonctions pour le menu élèves
@@ -347,6 +410,10 @@ public class Controleur {
 	public void setVueV(VueVoiture vueV) {
 	    this.vueV = vueV;
 	    this.vueV.setVueP(this.vueP);
+	}
+	public void setVueD(VueDepense vueD) {
+    	this.vueD = vueD;
+    	this.vueD.setVueP(this.vueP);
 	}
 
 }

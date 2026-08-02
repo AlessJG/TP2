@@ -9,6 +9,8 @@ public class AutoEcole {
 	private ArrayList<Activite> activites; //la liste de toutes les activités prévues pour cette années
 	private ArrayList<Paiement> factures;
 	private ArrayList<Voiture> voitures;
+	private ArrayList<DepenseVoiture> depensesVoiture;
+	private ArrayList<AutreDepense> autresDepenses;
 	
 	private Calendrier calendrier; //le calendrier lié à cette instance
 	private Moniteur moniteur; //le moniteur de l'auto-école
@@ -68,13 +70,17 @@ public class AutoEcole {
 		this.fAutresDepenses = "./CSV/autres_depenses/autres_depenses"
 		        + LocalDate.now().getYear() + ".txt";
 		
-		this.fDepensesVoiture = "./CSV/autres_depenses/depenses_voiture"
-		        + LocalDate.now().getYear() + ".txt";
+		this.fDepensesVoiture = "./CSV/depenses_voiture/depenses_voiture"
+        		+ LocalDate.now().getYear() + ".txt";
 		
 		this.fPaiements = "./CSV/autres_depenses/autres_depenses"
 		        + LocalDate.now().getYear() + ".txt";
 		
 		this.voitures = GestionFichiers.voituresCSV(this.fVoiture);
+
+		this.depensesVoiture = GestionFichiers.depensesVoitureCSV(fDepensesVoiture);
+
+		this.autresDepenses = GestionFichiers.autresDepensesCSV(fAutresDepenses);
 		
 	}
 	
@@ -380,6 +386,38 @@ public class AutoEcole {
         GestionFichiers.modifierActiviteCSV(a, fActivites);
         return true;
     }
+
+	public void ajouterDepenseVoiture(DepenseVoiture d){
+
+    	depensesVoiture.add(d);
+
+    	GestionFichiers.ajouterDepenseVoitureCSV(
+            	d,
+            	fDepensesVoiture
+    	);
+	}
+	public void ajouterAutreDepense(AutreDepense d){
+
+    	autresDepenses.add(d);
+
+    	GestionFichiers.ajouterAutreDepenseCSV(
+            	d,
+            	fAutresDepenses
+    	);
+	}
+
+	public ArrayList<AutreDepense> rechercherDepensesCategorie(String categorie) {
+
+    	ArrayList<AutreDepense> resultat = new ArrayList<>();
+
+    	for (AutreDepense d : autresDepenses) {
+        	if (d.getCategorie().name().equalsIgnoreCase(categorie)) {
+            	resultat.add(d);
+        	}
+    	}
+
+    	return resultat;
+	}
     
     public Voiture trouverVoiture(String plaque) {
 
@@ -474,6 +512,14 @@ public class AutoEcole {
 
 	public void ajouterPaiement(Paiement paiement) {
     	this.factures.add(paiement);
+	}
+
+	public ArrayList<DepenseVoiture> getDepensesVoiture(){
+    	return depensesVoiture;
+	}
+
+	public ArrayList<AutreDepense> getAutresDepenses(){
+    	return autresDepenses;
 	}
     
 }
