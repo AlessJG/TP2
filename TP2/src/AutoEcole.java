@@ -408,6 +408,19 @@ public class AutoEcole {
             	fAutresDepenses
     	);
 	}
+
+	public ArrayList<AutreDepense> rechercherDepensesCategorie(String categorie) {
+
+    	ArrayList<AutreDepense> resultat = new ArrayList<>();
+
+    	for (AutreDepense d : autresDepenses) {
+        	if (d.getCategorie().name().equalsIgnoreCase(categorie)) {
+            	resultat.add(d);
+        	}
+    	}
+
+    	return resultat;
+	}
     
     public Calendrier getCalendrier() {
         return this.calendrier;
