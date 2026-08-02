@@ -79,17 +79,21 @@ public class Controleur {
 
 	public void ajouterDepenseVoiture(TextField[] inputs) {
 
-    	String[] reponses = new String[inputs.length];
+    	try {
 
-    	for (int i = 0; i < inputs.length; i++) {
-        	reponses[i] = inputs[i].getText();
-    	}
+        	DepenseVoiture d = new DepenseVoiture(
+                	this.autoEcole.getDepensesVoiture().size() + 1,
+                	inputs[0].getText(), // plaque
+                	LocalDate.parse(inputs[1].getText()), // date
+                	DepenseVoiture.Categorie.valueOf(inputs[2].getText()), // categorie
+                	inputs[3].getText(), // description
+                	Double.parseDouble(inputs[4].getText()) // montant
+        	);
 
-    	boolean succes = this.autoEcole.ajouterDepenseVoiture(reponses);
-
-    	if (succes) {
+        	this.autoEcole.ajouterDepenseVoiture(d);
         	this.vueP.confirmation();
-    	} else {
+
+    	} catch(Exception e) {
         	this.vueP.erreur("Impossible d'ajouter la dépense.");
     	}
 	}
