@@ -77,6 +77,10 @@ public class AutoEcole {
 		        + LocalDate.now().getYear() + ".txt";
 		
 		this.voitures = GestionFichiers.voituresCSV(this.fVoiture);
+
+		this.depensesVoiture = GestionFichiers.depensesVoitureCSV(fDepensesVoiture);
+
+		this.autresDepenses = GestionFichiers.autresDepensesCSV(fAutresDepenses);
 		
 	}
 	
