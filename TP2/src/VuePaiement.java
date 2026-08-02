@@ -101,6 +101,14 @@ public class VuePaiement {
         BorderPane root = new BorderPane();
         root.setCenter(table);
 
+        Button retour = new Button("Retour");
+
+        retour.setOnAction(e -> {
+            vueP.afficherMenu();
+        });
+
+        root.setBottom(retour);
+
 
         Scene scene = new Scene(root,700,400);
 
