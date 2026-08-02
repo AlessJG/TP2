@@ -608,12 +608,20 @@ public class GestionFichiers {
 						  Integer.parseInt(sTab[6]), Voiture.Etat.valueOf(sTab[5]));
 				voitures.add(voiture);
 			}
-			String[] sTab = voitureS.get(voitureS.size() - 1);
 		}
 		return voitures;
 	}
 	
+	public static void ecrireVoituresCSV(String nomFichier, ArrayList<Voiture> voitures) {
 
+		String contenu = "Marque,Plaque,Annee,Prix,KmAchat,Etat,Kms\n";
+
+		for (Voiture voiture : voitures) {
+			contenu += voiture.toCSV() + "\n";
+		}
+
+		ecrire(nomFichier, contenu.toString());
+	}
 }
 	
 

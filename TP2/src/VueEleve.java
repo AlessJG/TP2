@@ -1,14 +1,9 @@
 import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
@@ -67,52 +62,45 @@ public class VueEleve {
     
 	public void afficherEleves(ArrayList<Eleve> eleves) {
 		
-		// adding some sample data
-	      ObservableList<Eleve> observableEleves = FXCollections.observableArrayList(eleves);
-	      
-	      // Creating a TableView
-	      TableView<Eleve> tableView = new TableView<Eleve>();
-	      
-	      // Creating columns for the TableView
-	      TableColumn<Eleve, String> colPrenom = new TableColumn<>("Prénom");
-	      colPrenom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrenom()));
-	      
-	      TableColumn<Eleve, String> colNom = new TableColumn<>("Nom");
-	      colNom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-	      
-	      TableColumn<Eleve, String> colAdresse = new TableColumn<>("Adresse");
-	      colAdresse.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdresse()));
-	      
-	      TableColumn<Eleve, String> colTelephone = new TableColumn<>("Numéro de téléphone");
-	      colTelephone.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumTelephone()));
-	      
-	      TableColumn<Eleve, String> colNumSAAQ = new TableColumn<>("Numéro SAAQ");
-	      colNumSAAQ.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumSAAQ()));
-	      
-	      TableColumn<Eleve, String> colActivite = new TableColumn<>("Prochaine activité");
-	      colActivite.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLecon().toString()));
-	      
-	      // Adding the columns to the TableView
-	      tableView.getColumns().addAll(colPrenom, colNom, colAdresse, colTelephone, colNumSAAQ, colActivite);
-	      
-	      // Set the items of the TableView
-	      tableView.setItems(observableEleves);
-	      
-	      // Create a BorderPane and set the TableView as its center
-	      BorderPane root = new BorderPane();
-	      root.setCenter(tableView);
-	      
-	      // Create a Scene and set it on the Stage
-	      Scene scene = new Scene(root, 500, 300);
-	      this.primaryStage.setTitle("Table View in JavaFX");
-	      this.primaryStage.setScene(scene);
-	      this.primaryStage.show();
+		ObservableList<Eleve> observableEleves = FXCollections.observableArrayList(eleves);
+  
+		TableView<Eleve> tableView = new TableView<Eleve>();
+  
+		TableColumn<Eleve, String> colPrenom = new TableColumn<>("Prénom");
+		colPrenom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrenom()));
+  
+		TableColumn<Eleve, String> colNom = new TableColumn<>("Nom");
+		colNom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+  
+		TableColumn<Eleve, String> colAdresse = new TableColumn<>("Adresse");
+		colAdresse.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdresse()));
+  
+		TableColumn<Eleve, String> colTelephone = new TableColumn<>("Numéro de téléphone");
+		colTelephone.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumTelephone()));
+  
+		TableColumn<Eleve, String> colNumSAAQ = new TableColumn<>("Numéro SAAQ");
+		colNumSAAQ.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumSAAQ()));
+  
+		TableColumn<Eleve, String> colActivite = new TableColumn<>("Prochaine activité");
+		colActivite.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLecon().toString()));
+  
+		tableView.getColumns().addAll(colPrenom, colNom, colAdresse, colTelephone, colNumSAAQ, colActivite);
+  
+		tableView.setItems(observableEleves);
+  	
+		BorderPane root = new BorderPane();
+		root.setCenter(tableView);
+  
+		Scene scene = new Scene(root, 1000, 500);
+		this.primaryStage.setTitle("Liste des élèves");
+		this.primaryStage.setScene(scene);
+		this.primaryStage.show();
 	}
 	
 	public void rechercherElevePar() {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 500, 600);
     	
     	Text texte1 = new Text("Veuillez choisir une option:\nRecherche par;");
     	texte1.setFont(Font.font(18));
@@ -158,9 +146,9 @@ public class VueEleve {
 	public void barDeRechercheEleve(String type) {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 500, 600);
     	
-    	Text texte1 = new Text("Veuillez rentrer le " + type +" de l'élève à rechercher:");
+    	Text texte1 = new Text("Veuillez rentrer le " + type +"\nde l'élève à rechercher:");
     	texte1.setFont(Font.font(18));
     	texte1.setTextAlignment(TextAlignment.CENTER);
     	
@@ -181,9 +169,9 @@ public class VueEleve {
 	public void barDeRechercheSupprimerEleve() {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 500, 600);
     	
-    	Text texte1 = new Text("Veuillez rentrer le numéro SAAQ de l'élève à rechercher:");
+    	Text texte1 = new Text("Veuillez rentrer le numéro SAAQ \nde l'élève à rechercher:");
     	texte1.setFont(Font.font(18));
     	texte1.setTextAlignment(TextAlignment.CENTER);
     	
@@ -204,9 +192,9 @@ public class VueEleve {
 	public void barDeRechercheModifierEleve() {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 500, 600);
     	
-    	Text texte1 = new Text("Veuillez rentrer le numéro SAAQ de l'élève à rechercher:");
+    	Text texte1 = new Text("Veuillez rentrer le numéro SAAQ \nde l'élève à rechercher:");
     	texte1.setFont(Font.font(18));
     	texte1.setTextAlignment(TextAlignment.CENTER);
     	
@@ -227,7 +215,7 @@ public class VueEleve {
 	public void supprimerEleve(Eleve eleve) {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 500, 600);
     	
     	Text texte1 = new Text("Confirmer la désinscription de:\n" + 
     							eleve.getPrenom() + " " + eleve.getNom() +
@@ -306,40 +294,7 @@ public class VueEleve {
     	root.getChildren().add(confirmer);
     	
     	root.setSpacing(20);
-    	this.primaryStage.setTitle("Inscription nouvel.le élève");
-    	this.primaryStage.setScene(scene);
-    	this.primaryStage.show();
-	}
-	
-	public void echecDesinscription() {
-		VBox root = new VBox();
-    	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
-    	
-    	Text texte1 = new Text("Élève non existant");
-    	texte1.setFont(Font.font(18));
-    	root.getChildren().add(texte1);
-    	
-    	HBox hbox = new HBox();
-    	root.getChildren().add(hbox);
-    	
-    	Button quitter = new Button("Quitter");
-    	quitter.setOnAction((event)-> {
-    		this.vueP.quitter();
-    	});
-    	
-    	Button nextMenu = new Button("Menu principal");
-    	nextMenu.setOnAction((event)-> {
-    		this.vueP.menuPrincipal();
-    	});
-    	
-    	hbox.getChildren().add(quitter);
-    	hbox.getChildren().add(nextMenu);
-    	
-    	root.setAlignment(Pos.CENTER);
-    	root.setSpacing(20);
-    	
-    	this.primaryStage.setTitle("Erreur");
+    	this.primaryStage.setTitle("Modifier les informations d'un.e élève");
     	this.primaryStage.setScene(scene);
     	this.primaryStage.show();
 	}

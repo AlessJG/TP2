@@ -1,23 +1,12 @@
-import java.time.Duration;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.ArrayList;
-
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class VueActivite {
@@ -33,7 +22,7 @@ public class VueActivite {
 	public void trouverEleve() {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 600, 500);
     	
     	Text texte1 = new Text("Veuillez rentrer votre numéro SAAQ: ");
     	texte1.setFont(Font.font(18));
@@ -57,7 +46,7 @@ public class VueActivite {
 	public void gererActivite(Eleve e) {
 		VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 600, 500);
     	
     	Text texte1 = new Text("Veuillez choisir une option:");
     	texte1.setFont(Font.font(18));
@@ -102,8 +91,9 @@ public class VueActivite {
 
 	    root.getChildren().addAll(texte, oui, non);
 
-	    Scene scene = new Scene(root, 400, 300);
+	    Scene scene = new Scene(root, 600, 500);
 
+	    this.primaryStage.setTitle("Annuler une activité");
 	    this.primaryStage.setScene(scene);
 	    this.primaryStage.show();
 	}
@@ -144,8 +134,9 @@ public class VueActivite {
 
 	    root.getChildren().addAll(new Label("Choisissez une date pour " + eleve.getLecon()), grid);
 
-	    primaryStage.setScene(new Scene(root, 500, 400));
-	    primaryStage.show();
+	    this.primaryStage.setTitle("Planifier une activité");
+	    this.primaryStage.setScene(new Scene(root, 600, 500));
+	    this.primaryStage.show();
 	}
 	
 	public void afficherCreneaux(Eleve eleve, Date date) {
@@ -158,14 +149,15 @@ public class VueActivite {
 	        Button btn = new Button(h + " (" + d.toMinutes() + " min)");
 
 	        btn.setOnAction(e -> {
-	            controleur.selectionnerCreneau(eleve, date, h);
+	            this.controleur.selectionnerCreneau(eleve, date, h);
 	        });
 
 	        root.getChildren().add(btn);
 	    }
 
-	    primaryStage.setScene(new Scene(root, 300, 400));
-	    primaryStage.show();
+	    this.primaryStage.setTitle("Planifier une activité");
+	    this.primaryStage.setScene(new Scene(root, 600, 500));
+	    this.primaryStage.show();
 	}
 	
 	public void demanderVoiture(Eleve eleve, Date date, LocalTime heure) {
@@ -194,7 +186,7 @@ public class VueActivite {
 
 	    root.getChildren().addAll(texte, boutons);
 
-	    Scene scene = new Scene(root, 400, 200);
+	    Scene scene = new Scene(root, 600, 500);
 	    this.primaryStage.setTitle("Choix du véhicule");
 	    this.primaryStage.setScene(scene);
 	    this.primaryStage.show();
@@ -219,73 +211,82 @@ public class VueActivite {
 
 	    root.getChildren().addAll(texte, plaqueField, confirmer);
 
-	    Scene scene = new Scene(root, 400, 220);
-	    this.primaryStage.setTitle("Plaque d'immatriculation");
+	    Scene scene = new Scene(root, 600, 500);
+	    this.primaryStage.setTitle("Planifier une activité");
 	    this.primaryStage.setScene(scene);
 	    this.primaryStage.show();
 	}
 	
 	public void afficherActivites(ArrayList<Activite> activites) {
 		
-		// adding some sample data
-	      ObservableList<Activite> observableEleves = FXCollections.observableArrayList(activites);
-	      
-	      // Creating a TableView
-	      TableView<Activite> tableView = new TableView<Activite>();
-	      
-	      // Creating columns for the TableView
-	      TableColumn<Activite, String> colType = new TableColumn<>("Type");
-	      colType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType().name()));
-	      
-	      TableColumn<Activite, String> colNumSAAQ = new TableColumn<>("Numéro SAAQ");
-	      colNumSAAQ.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumSAAQ()));
-	      
-	      TableColumn<Activite, String> colDate = new TableColumn<>("Date");
-	      colDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLocalDate().toString()));
-	      
-	      TableColumn<Activite, String> colHeure = new TableColumn<>("Heure");
-	      colHeure.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeure()));
-	      
-	      TableColumn<Activite, String> colDuree = new TableColumn<>("Durée");
-	      colDuree.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDuree())));
-	      
-	      TableColumn<Activite, String> colMontant = new TableColumn<>("Montant");
-	      colMontant.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getMontant())));
-	      
-	      TableColumn<Activite, String> colStatut= new TableColumn<>("Statut");
-	      colStatut.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatut().name()));
-	      
-	      // Adding the columns to the TableView
-	      tableView.getColumns().addAll(colType, colNumSAAQ, colDate, colHeure, colDuree, colMontant, colStatut);
-	      
-	      // Set the items of the TableView
-	      tableView.setItems(observableEleves);
-	      
-	      // Create a BorderPane and set the TableView as its center
-	      BorderPane root = new BorderPane();
-	      root.setCenter(tableView);
-	      
-	      // Create a Scene and set it on the Stage
-	      Scene scene = new Scene(root, 700, 300);
-	      this.primaryStage.setTitle("Table View in JavaFX");
-	      this.primaryStage.setScene(scene);
-	      this.primaryStage.show();
+		ObservableList<Activite> observableEleves = FXCollections.observableArrayList(activites);
+	  
+		TableView<Activite> tableView = new TableView<Activite>();
+	  
+		TableColumn<Activite, String> colType = new TableColumn<>("Type");
+		colType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType().name()));
+	  
+		TableColumn<Activite, String> colNumSAAQ = new TableColumn<>("Numéro SAAQ");
+		colNumSAAQ.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumSAAQ()));
+	  
+		TableColumn<Activite, String> colDate = new TableColumn<>("Date");
+		colDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLocalDate().toString()));
+	  
+		TableColumn<Activite, String> colHeure = new TableColumn<>("Heure");
+		colHeure.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeure()));
+	  
+		TableColumn<Activite, String> colDuree = new TableColumn<>("Durée");
+		colDuree.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDuree())));
+	  
+		TableColumn<Activite, String> colMontant = new TableColumn<>("Montant");
+		colMontant.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getMontant())));
+	  
+		TableColumn<Activite, String> colStatut= new TableColumn<>("Statut");
+		colStatut.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatut().name()));
+	  
+		tableView.getColumns().addAll(colType, colNumSAAQ, colDate, colHeure, colDuree, colMontant, colStatut);
+	  
+		tableView.setItems(observableEleves);
+	  
+		BorderPane root = new BorderPane();
+		root.setCenter(tableView);
+	  
+		Scene scene = new Scene(root, 1000, 500);
+		this.primaryStage.setTitle("Liste des activités");
+		this.primaryStage.setScene(scene);
+		this.primaryStage.show();
 	}
 	
-	public void afficherActivite(Activite a) {
-	    VBox root = new VBox(10);
+	public void demanderSAAQActivite(int id) {
 
-	    Text texte1 =  new Text("Type : " + a.getType());
-	    Text texte2 =  new Text("Date : " + a.getDate());
-	    Text texte3 =  new Text("Heure : " + a.getHeure());
-	    Text texte4 =  new Text("Durée : " + a.getDuree());
-	    Text texte5 =  new Text("Montant : " + a.getMontant());
-	    Text texte6 =   new Text("Statut : " + a.getStatut());
-	    
-	    root.getChildren().addAll(texte1, texte2, texte3, texte4, texte5, texte6);
-	    Scene scene = new Scene(root, 400, 300);
-
-	    this.primaryStage.setScene(scene);
+		VBox root = new VBox();
+    	root.setSpacing(10);
+    	Scene scene = new Scene(root, 600, 500);
+    	
+    	Text texte1 = new Text("Veuillez rentrer le numéro SAAQ de l'élève\n"
+    						   + "qui a participé à l'activité: ");
+    	texte1.setFont(Font.font(18));
+    	TextField input = new TextField();
+    	root.getChildren().addAll(texte1, input);
+    	
+    	Button confirmer = new Button("Confirmer");
+    	confirmer.setOnAction((event)-> {
+    		if(id == 1) {
+    			this.controleur.afficherDetailsActivite(input.getText());
+    		}
+    		if(id == 2) {
+    			this.controleur.mettreAJourStatutActivite(input.getText());
+    		}
+    		
+    	});
+    	
+    	root.getChildren().add(confirmer);
+    	root.setAlignment(Pos.CENTER);
+    	root.setSpacing(20);
+    	
+    	this.primaryStage.setTitle("Numéro SAAQ d'une activité");
+    	this.primaryStage.setScene(scene);
+    	this.primaryStage.show();
 	}
 	
 	public void setVueP(VuePrincipale vueP) {

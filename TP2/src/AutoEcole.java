@@ -40,7 +40,7 @@ public class AutoEcole {
 			 ".csv");
 		
 		this.voitures = GestionFichiers.voituresCSV(this.fVoiture);
-		this.voiture = this.voitures.getLast();
+		this.voiture = this.getVoituresDisponibles().getLast();
 	
 		this.fActivites = ("./CSV/activites/activites" +
 			 LocalDate.now().getYear() +
@@ -112,6 +112,7 @@ public class AutoEcole {
     }
     
     public Voiture inscriptionVehicule(String[] reponses) {
+    	
     	Voiture v;
     	try {
     		v = new Voiture(reponses[0], Integer.parseInt(reponses[2]), reponses[1], 
@@ -129,6 +130,7 @@ public class AutoEcole {
     	GestionFichiers.ajouterCSV(fVoiture, texte);
     	
     	this.voiture = v;
+    	this.voitures.add(v);
     	return v;
     }
     
@@ -193,7 +195,7 @@ public class AutoEcole {
     	return this.elevesRecherches;
     }
     
-    public Activite trouverActivites(String numSAAQ) {
+    public ArrayList<Activite> trouverActivites(String numSAAQ) {
 
     	ArrayList<Activite> activites = new ArrayList<Activite>();
         for (Activite activite : this.activites) {
@@ -203,17 +205,12 @@ public class AutoEcole {
             }
         }
         
-    	for(Activite a : activites) {
-    		if(a.getStatut().equals(Activite.Statut.NC)) {
-    			return a;
-    		}
-    	}
-        return null;
+        return activites;
     }
     
-    public boolean mettreAJourStatutActivite(String numSAAQ, Activite.Statut nouveauStatut) {
+    public boolean mettreAJourStatutActivite(ArrayList<Activite> activitesNC, Activite.Statut nouveauStatut) {
 
-    	Activite a = trouverActivites(numSAAQ);
+    	Activite a = activitesNC.get(0);
 
     	if (a == null) {
     		return false;
@@ -382,6 +379,72 @@ public class AutoEcole {
 
         GestionFichiers.modifierActiviteCSV(a, fActivites);
         return true;
+    }
+    
+    public Voiture trouverVoiture(String plaque) {
+
+        for (Voiture voiture : this.voitures) {
+
+            if (voiture.getPlaque().equalsIgnoreCase(plaque)) {
+                return voiture;
+            }
+        }
+
+        return null;
+    }
+    
+    public boolean vendreVoiture(String plaque) {
+
+        Voiture voiture = trouverVoiture(plaque);
+
+        if (voiture == null) {
+            return false;
+        }
+
+        voiture.setEtat(Voiture.Etat.V);
+
+        // Sauvegarder dans le CSV
+        GestionFichiers.ecrireVoituresCSV(this.fVoiture, this.voitures);
+
+        return true;
+    }
+    
+    public boolean modifierVoiture(String plaque, String nouveauKilometrage, String nouveletat) {
+
+    	Voiture voiture = trouverVoiture(plaque);
+
+    	if (voiture == null) {
+    		return false;
+    	}
+
+    	int nouvKms = Integer.parseInt(nouveauKilometrage);
+    	// Empêcher de diminuer le kilométrage
+    	if (nouvKms < voiture.getKilometrage()) {
+    		return false;
+    	}
+    	else if(voiture.getEtat().equals(Voiture.Etat.V)) {
+    		return false;
+    	}
+
+    	voiture.setKilometrage(nouvKms);
+    	voiture.setEtat(Voiture.Etat.valueOf(nouveletat));
+    	GestionFichiers.ecrireVoituresCSV(this.fVoiture, this.voitures);
+
+    	return true;
+    }
+    
+    public ArrayList<Voiture> getVoituresDisponibles() {
+
+        ArrayList<Voiture> disponibles = new ArrayList<>();
+
+        for (Voiture voiture : this.voitures) {
+
+            if (voiture.getEtat() == Voiture.Etat.D) {
+                disponibles.add(voiture);
+            }
+        }
+
+        return disponibles;
     }
     
     public Calendrier getCalendrier() {

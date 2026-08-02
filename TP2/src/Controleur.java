@@ -1,4 +1,5 @@
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,8 +18,10 @@ public class Controleur {
 		this.vueA = new VueActivite(vueP.getPrimaryStage(), this);
 		this.vueE = new VueEleve(vueP.getPrimaryStage(), this);
 		this.vueV = new VueVoiture(vueP.getPrimaryStage(), this);
+		
 		this.vuePaiement = new VuePaiement(vueP.getPrimaryStage(), this);
 		this.vuePaiement.setVueP(vueP);
+		
 		this.autoEcole = new AutoEcole();
 	}
 
@@ -61,6 +64,38 @@ public class Controleur {
 		this.vueA.gererActivite(e);
 	}
 	
+	public void demarrerAfficherDetails() {
+		this.vueA.demanderSAAQActivite(1);
+	}
+	
+	public void demarrerMettreAJour() {
+		this.vueA.demanderSAAQActivite(2);
+	}
+	
+	
+	//vehicules
+	public void demarrerInscriptionVehicule() {
+		this.vueV.inscrireNouveauVehicule();
+	}
+	
+	public void demarrerAfficherVehicules() {
+		this.vueV.afficherVoitures(this.autoEcole.getVoitures());
+	}
+	
+	public void demarrerModifierVehicule() {
+		this.vueV.barDeRechercheModifierVehicule();
+	}
+	
+	public void demarrerVendreVoiture() {
+		this.vueV.barDeRechercheSupprimerVehicule();
+	}
+	
+	public void demarrerAfficherVehicule() {
+		ArrayList<Voiture> v = new ArrayList<Voiture>();
+		v.add(this.autoEcole.getVoiture());
+		this.vueV.afficherVoitures(v);
+	}
+	
 	
 	//paiements
 	public void demarrerPaiements(){
@@ -77,7 +112,7 @@ public class Controleur {
 		}
 		
 		if(this.autoEcole.inscriptionEleve(reponses) == null) {
-			Button bouton = this.vueP.erreurEntree("Retourner à l'inscription");
+			Button bouton = this.vueP.erreur("Erreur de format");
 			bouton.setOnAction((event)-> {
 				this.vueE.inscriptionEleve();
 			});
@@ -108,7 +143,7 @@ public class Controleur {
 			this.vueE.supprimerEleve(this.autoEcole.getElevesRecherches().get(0));
 		}
 		else {
-			this.vueE.echecDesinscription();
+			this.vueP.erreur("Erreur");
 		}
 		
 	}
@@ -124,7 +159,7 @@ public class Controleur {
 			this.vueE.modifierInfosEleve(this.autoEcole.getElevesRecherches().get(0));
 		}
 		else {
-			this.vueE.echecDesinscription();
+			this.vueP.erreur("Erreur");
 		}
 		
 	}
@@ -136,10 +171,7 @@ public class Controleur {
 		}
 		
 		if(this.autoEcole.modifierEleve(reponses, e) == null) {
-			Button bouton = this.vueP.erreurEntree("Retourner à la modification des informations");
-			bouton.setOnAction((event)-> {
-				this.vueE.modifierInfosEleve(this.autoEcole.getElevesRecherches().get(0));
-			});
+			this.vueP.erreur("Erreur");
 		}
 		else {
 			this.vueP.confirmation();
@@ -186,7 +218,7 @@ public class Controleur {
 	        this.vueP.confirmation();
 	    }
 	    else {
-	        this.vueP.erreurEntree("Retour");
+	        this.vueP.erreur("Erreur");
 	    }
 	}
 	
@@ -200,42 +232,48 @@ public class Controleur {
 	
 	public void confirmerPlanification(Eleve eleve, Date date, LocalTime heure, boolean voitureAutoEcole, String plaqueUtilisateur) {
 
-		String plaque;
+		String plaque = null;
+		boolean succes = false;
 		
 		if (voitureAutoEcole) {
-			plaque = this.autoEcole.getVoiture().getPlaque();
+			if(this.autoEcole.getVoiture() != null) {
+				plaque = this.autoEcole.getVoiture().getPlaque();
+			}
+			else {
+				succes = false;
+			}
 		}
 		else {
 			plaque = plaqueUtilisateur;
 		}
 		
-		boolean succes = this.autoEcole.reserverActivite(eleve, date, heure,	voitureAutoEcole, plaque);
+		succes = this.autoEcole.reserverActivite(eleve, date, heure, voitureAutoEcole, plaque);
 		
 		if (succes) {
 			this.vueP.confirmation();
 		}
 		else {
-			this.vueP.erreurEntree("Retour");
+			this.vueP.erreur("Erreur");
 		}
 	}
 	
-	public void afficherDetailsActivite() {
-
-	    String numSAAQ = this.vueA.demanderNumSAAQActivite();
-
-	    String details = this.autoEcole.afficherDetailsActivite(numSAAQ);
-
-	    this.vueA.afficherMessage(details);
+	public void afficherDetailsActivite(String numSAAQ) {
+		
+	    ArrayList<Activite> activites = this.autoEcole.trouverActivites(numSAAQ);
+	    this.vueA.afficherActivites(activites);
 	}
 	
-	public void mettreAJourStatutActivite() {
-
-	    String numSAAQ = this.vueA.demanderIdActivite();
-
-	    Activite.Statut statut = this.vueA.demanderNouveauStatutActivite();
-
-	    boolean succes = this.autoEcole.mettreAJourStatutActivite(numSAAQ, statut);
-
+	public void mettreAJourStatutActivite(String numSAAQ) {
+		  
+    	ArrayList<Activite> activites = this.autoEcole.trouverActivites(numSAAQ);
+    	
+    	ArrayList<Activite> activitesNC = new ArrayList<Activite>();
+    	for(Activite a : activites) {
+    		if(a.getStatut().equals(Activite.Statut.NC)) {
+    			activitesNC.add(a);
+    		}
+    	}
+	    boolean succes = this.autoEcole.mettreAJourStatutActivite(activitesNC, Activite.Statut.C);
 	    if (succes) {
 	        this.vueP.confirmation();;
 	    }
@@ -252,14 +290,47 @@ public class Controleur {
 		}
 		
 		if(this.autoEcole.inscriptionVehicule(reponses) == null) {
-			Button bouton = this.vueP.erreurEntree("Retourner à l'inscription");
-			bouton.setOnAction((event)-> {
-				this.vueV.inscrireNouveauVehicule();
-			});
+			this.vueP.erreur("Erreur");
 		}
 		else {
 			this.vueP.confirmation();
 		}
+	}
+	
+	public void modifierVehicule(String plaque) {
+		Voiture v = this.autoEcole.trouverVoiture(plaque);
+		if(v != null) {
+			this.vueV.modifierInfosVoiture(v);
+		}
+		else {
+			this.vueP.erreur("Erreur");
+		}
+	}
+	
+	public void confirmerModifierVehicule(TextField[] inputs, Voiture v) {
+		String[] reponses = new String[inputs.length];
+		for(int i = 0; i<inputs.length; i++) {
+			reponses[i] = inputs[i].getText();
+		}
+		
+		if(this.autoEcole.modifierVoiture(v.getPlaque(), reponses[0], reponses[1]) == false) {
+			this.vueP.erreur("Erreur");
+		}
+		else {
+			this.vueP.confirmation();
+		}
+	}
+	
+	public void vendreVoiture(String plaque) {
+
+	    boolean succes = this.autoEcole.vendreVoiture(plaque);
+
+	    if(succes) {
+	    	this.vueP.confirmation();
+	    }
+	    else {
+	    	this.vueP.erreur("Véhicule introuvable");
+	    }
 	}
 	
 	//Getters et setters

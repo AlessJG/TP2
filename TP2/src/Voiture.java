@@ -1,11 +1,11 @@
 import java.util.*;
 
 public final class Voiture {
-	private final String marque; //la marque du véhicule
-	private final int annee; //l'année du véhicule
-	private final String plaque; //la plaque du véhicule
-	private final double prixAchat; //le prix d'achat du véhicule
-	private final int kmAchat; //le kilométrage à l'achat du véhicule
+	private String marque; //la marque du véhicule
+	private int annee; //l'année du véhicule
+	private String plaque; //la plaque du véhicule
+	private double prixAchat; //le prix d'achat du véhicule
+	private int kmAchat; //le kilométrage à l'achat du véhicule
 	private int kilometrage; //le kilométrage courant du véhicule
 	private LinkedList<DepenseVoiture> listeDepVoit; //la liste des dépenses (objets DepenseVoiture)
 													 //liées à la voiture
@@ -115,9 +115,32 @@ public final class Voiture {
 	public void setKilometrage(int kilometrage) {
 	    this.kilometrage = kilometrage;
 	}
+	
+	public void setMarque(String marque) {
+	    this.marque = marque;
+	}
+
+	public void setAnnee(int annee) {
+	    this.annee = annee;
+	}
+
+	public void setPrix(double prix) {
+	    this.prixAchat = prix;
+	}
 
 	public void setEtat(Etat etat) {
 	    this.etat = etat;
+	}
+	
+	public String toCSV() {
+
+	    return this.marque + "," +
+	           this.plaque + "," +
+	           this.annee + "," +
+	           this.prixAchat + "," +
+	           this.kmAchat + "," +
+	           this.etat.name() + "," +
+	           this.kilometrage;
 	}
 }
  

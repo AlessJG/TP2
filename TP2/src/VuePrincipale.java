@@ -1,12 +1,9 @@
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Separator;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class VuePrincipale extends Application {
@@ -30,7 +27,7 @@ public class VuePrincipale extends Application {
     public void menuPrincipal() {
     	VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
+    	Scene scene = new Scene(root, 500, 800);
     	
     	Text texte1 = new Text("Bonjour!");
     	texte1.setFont(Font.font(18));
@@ -87,7 +84,7 @@ public class VuePrincipale extends Application {
     	
     	VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 500);
+    	Scene scene = new Scene(root, 500, 600);
     	
     	Text texte2 = new Text("Veuillez choisir une option parmi celles suivantes");
     	texte2.setFont(Font.font(18));
@@ -110,13 +107,13 @@ public class VuePrincipale extends Application {
     	Button miseAJour = new Button("Mettre à jour le statut d'une activité");
     	miseAJour.setFont(Font.font(20));
     	miseAJour.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerMettreAJour();
     	});
     	    	
     	Button details = new Button("Afficher les détails d'une activité");
     	details.setFont(Font.font(20));
     	details.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerAfficherDetails();
     	});
     	
     	Button quitter = new Button("Quitter");
@@ -138,7 +135,7 @@ public class VuePrincipale extends Application {
     public void menuEleves() {
     	VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 500);
+    	Scene scene = new Scene(root, 500, 600);
     	
     	Text texte2 = new Text("Veuillez choisir une option parmi celles suivantes");
     	texte2.setFont(Font.font(18));
@@ -196,7 +193,7 @@ public class VuePrincipale extends Application {
     	
     	VBox root = new VBox();
     	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 500);
+    	Scene scene = new Scene(root, 500, 560);
     	
     	Text texte2 = new Text("Veuillez choisir une option parmi celles suivantes");
     	texte2.setFont(Font.font(18));
@@ -207,31 +204,31 @@ public class VuePrincipale extends Application {
     	Button lister = new Button("Afficher la liste des véhicules");
     	lister.setFont(Font.font(20));
     	lister.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerAfficherVehicules();
     	});
     	
     	Button ajouter = new Button("Ajouter un véhicule");
     	ajouter.setFont(Font.font(20));
     	ajouter.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerInscriptionVehicule();
     	});
     	
     	Button modifier = new Button("Modifier un véhicule");
     	modifier.setFont(Font.font(20));
     	modifier.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerModifierVehicule();
     	});
     	
     	Button supprimer = new Button("Supprimer un véhicule");
     	supprimer.setFont(Font.font(20));
     	supprimer.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerVendreVoiture();
     	});
     	
     	Button suivre = new Button("Suivre le kilométrage et l'état du véhicule");
     	suivre.setFont(Font.font(20));
     	suivre.setOnAction((event)-> {
-    		//
+    		this.controleur.demarrerAfficherVehicule();
     	});
     	
     	Button quitter = new Button("Quitter");
@@ -291,38 +288,6 @@ public class VuePrincipale extends Application {
     	nextMenu.setOnAction((event)-> {
     		this.menuPrincipal();
     	});
-    	
-    	hbox.getChildren().add(quitter);
-    	hbox.getChildren().add(nextMenu);
-    	
-    	root.setAlignment(Pos.CENTER);
-    	root.setSpacing(20);
-    	
-    	this.primaryStage.setTitle("Erreur");
-    	this.primaryStage.setScene(scene);
-    	this.primaryStage.show();
-    	
-    	return nextMenu;
-	}
-    
-    public Button erreurEntree(String buttonText) {
-		VBox root = new VBox();
-    	root.setSpacing(10);
-    	Scene scene = new Scene(root, 400, 400);
-    	
-    	Text texte1 = new Text("Format incorrect");
-    	texte1.setFont(Font.font(18));
-    	root.getChildren().add(texte1);
-    	
-    	HBox hbox = new HBox();
-    	root.getChildren().add(hbox);
-    	
-    	Button quitter = new Button("Quitter");
-    	quitter.setOnAction((event)-> {
-    		this.quitter();
-    	});
-    	
-    	Button nextMenu = new Button(buttonText);
     	
     	hbox.getChildren().add(quitter);
     	hbox.getChildren().add(nextMenu);
