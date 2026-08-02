@@ -9,6 +9,7 @@ public class Controleur {
 	private VueEleve vueE;
 	private VueActivite vueA;
 	private VueVoiture vueV;
+	private VuePaiement vuePaiement;
 	private AutoEcole autoEcole;
 	
 	public Controleur(VuePrincipale vueP) {
