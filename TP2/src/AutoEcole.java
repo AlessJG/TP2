@@ -70,8 +70,8 @@ public class AutoEcole {
 		this.fAutresDepenses = "./CSV/autres_depenses/autres_depenses"
 		        + LocalDate.now().getYear() + ".txt";
 		
-		this.fDepensesVoiture = "./CSV/autres_depenses/depenses_voiture"
-		        + LocalDate.now().getYear() + ".txt";
+		this.fDepensesVoiture = "./CSV/depenses_voiture/depenses_voiture"
+        		+ LocalDate.now().getYear() + ".txt";
 		
 		this.fPaiements = "./CSV/autres_depenses/autres_depenses"
 		        + LocalDate.now().getYear() + ".txt";
