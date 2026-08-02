@@ -226,5 +226,11 @@ public class Controleur {
 	    this.vueV = vueV;
 	    this.vueV.setVueP(this.vueP);
 	}
+
+	public void demarrerPaiements(){
+    this.vuePaiement.afficherPaiements(
+        this.autoEcole.getFactures()
+    );
+}
 	
 }
