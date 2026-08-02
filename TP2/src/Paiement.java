@@ -20,12 +20,12 @@ public class Paiement {
 		this.methode = methode;
 	}
 	
-	enum public Statut{
+	public enum  Statut{
 		P, 
 		I, 
 		PP
 	}
-	enum public Methode{
+	public enum  Methode{
 		E, 
 		C, 
 		V
