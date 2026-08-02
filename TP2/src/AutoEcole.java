@@ -304,6 +304,21 @@ public class AutoEcole {
 		GestionFichiers.modifierEleveCSV(eleve, this.fEleves);
 		
 		this.activites.add(activite);
+
+		String numero = "F-" + LocalDate.now().getYear() + "-" 
+              + String.format("%05d", this.factures.size() + 1);
+
+		Paiement paiement = new Paiement(
+        		numero,
+        		activite.getMontant(),
+        		LocalDate.now(),
+        		eleve,
+        		activite,
+        		Paiement.Statut.P,
+        		Paiement.Methode.E
+		);
+
+		this.factures.add(paiement);
 		
 		//On enregistre l'activité dans la base de données dans activitesXXXX.csv
         String ligne = this.activites.size() + "," +
