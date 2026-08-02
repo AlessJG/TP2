@@ -177,6 +177,28 @@ public class Controleur {
     	this.vueRapport.menuRapports();
 	}
 
+	public void genererRapports(LocalDate debut, LocalDate fin, String dossier) {
+
+    	genererRapportEleves(dossier, debut, fin);
+    	genererRapportRevenus(dossier, debut, fin);
+    	genererRapportDepensesVoiture(dossier, debut, fin);
+    	genererRapportAutresDepenses(dossier, debut, fin);
+
+	}
+
+    	boolean succes = this.autoEcole.ajouterDepenseVoiture(reponses);
+
+    	if (succes) {
+        	this.vueP.confirmation();
+    	} else {
+        	this.vueP.erreur("Impossible d'ajouter la dépense.");
+    	}
+	}
+
+public void ajouterAutreDepense(TextField[] inputs) {
+
+    String[] reponses = new String[inputs.length];
+
 
 	public void genererRapportEleves(String dossier, LocalDate debut, LocalDate fin) {
 
@@ -191,7 +213,7 @@ public class Controleur {
 	}
 
 
-public void genererRapportRevenus(String dossier, LocalDate debut, LocalDate fin) {
+	public void genererRapportRevenus(String dossier, LocalDate debut, LocalDate fin) {
 
     	Rapport.rapportRevenus(
         	"./CSV/paiements/factures" + LocalDate.now().getYear() + ".csv",
@@ -204,7 +226,7 @@ public void genererRapportRevenus(String dossier, LocalDate debut, LocalDate fin
 	}
 
 
-public void genererRapportDepensesVoiture(String dossier, LocalDate debut, LocalDate fin) {
+	public void genererRapportDepensesVoiture(String dossier, LocalDate debut, LocalDate fin) {
 
     	Rapport.rapportDepensesVoiture(
         	"./CSV/depenses/depensesVoiture.csv",
@@ -217,7 +239,7 @@ public void genererRapportDepensesVoiture(String dossier, LocalDate debut, Local
 	}
 
 
-public void genererRapportAutresDepenses(String dossier, LocalDate debut, LocalDate fin) {
+	public void genererRapportAutresDepenses(String dossier, LocalDate debut, LocalDate fin) {
 
     	Rapport.rapportAutresDepenses(
         	"./CSV/depenses/autresDepenses.csv",
