@@ -17,6 +17,7 @@ public class Controleur {
 		this.vueA = new VueActivite(vueP.getPrimaryStage(), this);
 		this.vueE = new VueEleve(vueP.getPrimaryStage(), this);
 		this.vueV = new VueVoiture(vueP.getPrimaryStage(), this);
+		this.vuePaiement = new VuePaiement(vueP.getPrimaryStage(), this);
 		this.autoEcole = new AutoEcole();
 	}
 
