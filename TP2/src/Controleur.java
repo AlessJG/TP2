@@ -71,6 +71,59 @@ public class Controleur {
 	        this.autoEcole.getFactures()
 	    );
 	}
+	//dépenses
+
+	public void demarrerDepenses() {
+    	this.vueD.menuDepenses();
+	}
+
+	public void ajouterDepenseVoiture(TextField[] inputs) {
+
+    	String[] reponses = new String[inputs.length];
+
+    	for (int i = 0; i < inputs.length; i++) {
+        	reponses[i] = inputs[i].getText();
+    	}
+
+    	boolean succes = this.autoEcole.ajouterDepenseVoiture(reponses);
+
+    	if (succes) {
+        	this.vueP.confirmation();
+    	} else {
+        	this.vueP.erreur("Impossible d'ajouter la dépense.");
+    	}
+	}
+
+	public void ajouterAutreDepense(TextField[] inputs) {
+
+    	String[] reponses = new String[inputs.length];
+
+    	for (int i = 0; i < inputs.length; i++) {
+        	reponses[i] = inputs[i].getText();
+    	}
+
+    	boolean succes = this.autoEcole.ajouterAutreDepense(reponses);
+
+    	if (succes) {
+        	this.vueP.confirmation();
+    	} else {
+        	this.vueP.erreur("Impossible d'ajouter la dépense.");
+    	}
+	}
+
+	public void afficherDepensesVoiture() {
+    	this.vueD.afficherDepensesVoiture(this.autoEcole.getDepensesVoiture());
+	}
+
+	public void afficherAutresDepenses() {
+    	this.vueD.afficherAutresDepenses(this.autoEcole.getAutresDepenses());
+	}
+
+	public void afficherDepensesCategorie(String categorie) {
+    	this.vueD.afficherDepensesCategorie(
+        	this.autoEcole.rechercherDepensesCategorie(categorie)
+    	);
+	}
 	
 	//Fonctions pour le menu élèves
 	public void confirmerInscription(TextField[] inputs) {
