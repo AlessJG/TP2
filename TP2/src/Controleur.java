@@ -156,13 +156,7 @@ public class Controleur {
     	}
 	}
 
-	public void afficherDepensesVoiture() {
-    	this.vueD.afficherDepensesVoiture(this.autoEcole.getDepensesVoiture());
-	}
 
-	public void afficherAutresDepenses() {
-    	this.vueD.afficherAutresDepenses(this.autoEcole.getAutresDepenses());
-	}
 
 	public void afficherDepensesCategorie(String categorie) {
     	this.vueD.afficherDepensesCategorie(
