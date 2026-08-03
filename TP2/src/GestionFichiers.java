@@ -622,6 +622,157 @@ public class GestionFichiers {
 
 		ecrire(nomFichier, contenu.toString());
 	}
+
+	/**
+ * Charge les dépenses liées aux voitures depuis un fichier CSV
+ */
+	public static ArrayList<DepenseVoiture> depensesVoitureCSV(String nomFichier) {
+
+    	ArrayList<DepenseVoiture> depenses = new ArrayList<>();
+
+    	ArrayList<String[]> lignes = lireCSV(nomFichier);
+
+
+    // Création du fichier s'il n'existe pas
+    	if (lignes == null || lignes.isEmpty()) {
+
+        	ecrire(nomFichier,
+                	"ID,Plaque,Date,Categorie,Description,Montant\n");
+
+        	return depenses;
+    	}
+
+
+    	for (String[] ligne : lignes) {
+
+        	DepenseVoiture depense = new DepenseVoiture(
+                	Integer.parseInt(ligne[0]),
+                	ligne[1],
+                	LocalDate.parse(ligne[2]),
+                	DepenseVoiture.Categorie.valueOf(ligne[3]),
+                	ligne[4],
+                	Double.parseDouble(ligne[5])
+        	);
+
+
+        	depenses.add(depense);
+    	}
+
+
+    	return depenses;
+	}
+
+
+
+/**
+ * Ajoute une dépense voiture dans le fichier CSV
+ */
+	public static void ajouterDepenseVoitureCSV(
+        	DepenseVoiture depense,
+        	String nomFichier) {
+
+
+    	ArrayList<String[]> lignes = lireCSV(nomFichier);
+
+    	int id = 1;
+
+
+    	if (lignes != null) {
+        	id = lignes.size() + 1;
+    	}
+
+
+    	String texte =
+            	id + "," +
+            	depense.getPlaque() + "," +
+            	depense.getDate() + "," +
+            	depense.getCategorie() + "," +
+            	depense.getDescription() + "," +
+            	depense.getMontant()
+            	+ "\n";
+
+
+    	ajouterCSV(nomFichier, texte);
+	}
+
+
+
+/**
+ * Charge les autres dépenses depuis un fichier CSV
+ */
+	public static ArrayList<AutreDepense> autresDepensesCSV(String nomFichier) {
+
+
+    	ArrayList<AutreDepense> depenses = new ArrayList<>();
+
+    	ArrayList<String[]> lignes = lireCSV(nomFichier);
+
+
+
+    	if (lignes == null || lignes.isEmpty()) {
+
+
+        	ecrire(nomFichier,
+                	"ID,Date,Categorie,Description,Montant\n");
+
+
+        	return depenses;
+    	}
+
+
+
+    	for (String[] ligne : lignes) {
+
+
+        	AutreDepense depense = new AutreDepense(
+                	Integer.parseInt(ligne[0]),
+                	LocalDate.parse(ligne[1]),
+                	AutreDepense.Categorie.valueOf(ligne[2]),
+                	ligne[3],
+                	Double.parseDouble(ligne[4])
+        	);
+
+
+        	depenses.add(depense);
+    	}
+
+
+    	return depenses;
+	}
+
+
+
+/**
+ * Ajoute une autre dépense dans le fichier CSV
+ */
+	public static void ajouterAutreDepenseCSV(
+        	AutreDepense depense,
+        	String nomFichier) {
+
+
+    	ArrayList<String[]> lignes = lireCSV(nomFichier);
+
+
+    	int id = 1;
+
+
+    	if (lignes != null) {
+        	id = lignes.size() + 1;
+    	}
+
+
+
+    	String texte =
+            	id + "," +
+            	depense.getDate() + "," +
+            	depense.getCategorie() + "," +
+            	depense.getDescription() + "," +
+            	depense.getMontant()
+            	+ "\n";
+
+
+    	ajouterCSV(nomFichier, texte);
+	}
 }
 	
 
