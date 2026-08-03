@@ -281,6 +281,69 @@ public class VueDepense {
 
     }
 
+    public void afficherDepensesVoiture(ArrayList<DepenseVoiture> depenses){
+
+    VBox root = new VBox(10);
+
+    for(DepenseVoiture d : depenses){
+
+        Label l = new Label(
+            d.getPlaque()
+            + " | "
+            + d.getDescription()
+            + " | "
+            + d.getMontant()
+            + "$"
+        );
+
+        root.getChildren().add(l);
+    }
+
+    Button retour = new Button("Retour");
+
+    retour.setOnAction(e -> menuDepenses());
+
+    root.getChildren().add(retour);
+
+    primaryStage.setScene(
+        new Scene(root,500,400)
+    );
+
+    primaryStage.show();
+}
+
+
+    public void afficherAutresDepenses(ArrayList<AutreDepense> depenses){
+
+        VBox root = new VBox(10);
+
+        for(AutreDepense d : depenses){
+
+            Label l = new Label(
+                d.getCategorie()
+                + " | "
+                + d.getDescription()
+                + " | "
+                + d.getMontant()
+                + "$"
+            );
+
+            root.getChildren().add(l);
+        }
+
+        Button retour = new Button("Retour");
+
+        retour.setOnAction(e -> menuDepenses());
+
+        root.getChildren().add(retour);
+
+        primaryStage.setScene(
+            new Scene(root,500,400)
+        );
+
+        primaryStage.show();
+    }
+
     public void afficherDepensesCategorie(ArrayList<AutreDepense> depenses){
 
         VBox root = new VBox(20);
